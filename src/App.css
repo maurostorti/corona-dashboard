@@ -44,12 +44,22 @@
 .Data-title {
   font-size: large;
   white-space: nowrap;
+  text-align: center;
 }
+.Data-content {
+  font-size: medium;
+  white-space: nowrap;
+  text-align: center;
+}
+
 .Data-search {
   min-width: 100%;
   margin-top: 15px;
 }
 
+.Data-graph {
+  margin-top: 15px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
