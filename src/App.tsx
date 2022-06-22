@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Autocomplete, Divider, Stack, TextField } from '@mui/material'
 import { api } from './utils/api'
 import logo from './logo.svg'
 import './App.css'
@@ -35,19 +36,20 @@ function App() {
         <h1> Corona Dashboard </h1>
       </header>
       <body className='App-body'>
-        <div className='Dashboard'>
-          <div className='Data-cell'>
-            <h2 className='Data-title'>Confimed Cases</h2>
+        <Stack direction='row' divider={<Divider orientation='vertical' flexItem />} spacing={2}>
+          <Stack>
+            <p className='Data-title'> Confimed Cases</p>
             <p>{confirmed}</p>
-          </div>
-          <div className='Data-cell'>
-            <h2 className='Data-title'>Recovered Cases</h2>
+          </Stack>
+          <Stack>
+            <p className='Data-title'> Recovered Cases</p>
             <p>{recovered}</p>
-          </div>
-          <div className='Data-cell'>
-            <h2 className='Data-title'>Deaths</h2>
+          </Stack>
+          <Stack>
+            <p className='Data-title'> Deaths</p>
             <p>{deaths}</p>
-          </div>
+          </Stack>
+        </Stack>
         </div>
       </body>
     </div>
