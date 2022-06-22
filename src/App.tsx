@@ -5,13 +5,21 @@ import logo from './logo.svg'
 import './App.css'
 
 function App() {
+  interface CountryType {
+    name: string
+    iso2?: string
+    iso3?: string
+  }
+
   const [confirmed, setConfirmed] = useState<string>('0')
   const [recovered, setRecovered] = useState<string>('10')
   const [deaths, setDeaths] = useState<string>('0')
+  const [countries, setCountries] = useState<CountryType[]>([])
+  const [selectedCountry, setSelectedCountry] = useState<string>('')
 
   const covidData = () => {
     api
-      .get('api')
+      .get(selectedCountry === '' ? 'api' : `api/countries/${selectedCountry}`)
       .then((response) => {
         const {
           confirmed: { value: confirmedValue },
@@ -25,9 +33,19 @@ function App() {
       .catch((error) => console.error(`Error: ${error}`))
   }
 
+  const getCountries = () => {
+    api
+      .get('api/countries')
+      .then((response) => {
+        const { countries: countriesData }: { countries: CountryType[] } = response.data
+        setCountries(countriesData)
+      })
+      .catch((error) => console.error(`Error: ${error}`))
+  }
+
   useEffect(() => {
-    // setTimeout(() => {
     covidData()
+    getCountries()
   })
 
   return (
@@ -50,6 +68,19 @@ function App() {
             <p>{deaths}</p>
           </Stack>
         </Stack>
+        <div className='Data-search'>
+          <Autocomplete
+            options={countries}
+            getOptionLabel={(option) => option.name}
+            autoComplete
+            autoHighlight
+            fullWidth
+            renderInput={(params) => <TextField {...params} label='Search Countries' />}
+            onChange={(event, value, reason) => {
+              if (reason === 'selectOption' && value) setSelectedCountry(value?.name)
+              else setSelectedCountry('')
+            }}
+          />
         </div>
       </body>
     </div>
