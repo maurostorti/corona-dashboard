@@ -1,5 +1,52 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-header {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(20px + 2vmin);
+  color: black;
+}
+
+.App-body {
+  flex: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+
+}
+
+.Dashboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.Data-cell {
+  display: flex;
+  min-width: 33%;
+  flex-direction: column;
+  text-align: center;
+  padding: 15px;
+  border-left: 1px solid #c2c2c2 ;
+  border-right: 1px solid #c2c2c2;
+  border-bottom: 1px solid #c2c2c2;
+}
+
+
+.Data-title {
+  font-size: large;
+  white-space: nowrap;
 }
 
 .App-logo {
@@ -7,25 +54,13 @@
   pointer-events: none;
 }
 
+.App-link {
+  color: #61dafb;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
