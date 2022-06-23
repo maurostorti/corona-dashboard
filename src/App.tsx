@@ -35,23 +35,30 @@ function App() {
   const [confirmed, setConfirmed] = useState<string>('0')
   const [recovered, setRecovered] = useState<string>('10')
   const [deaths, setDeaths] = useState<string>('0')
+  const [lastUpdate, setLastUpdate] = useState<string>(new Date().toLocaleDateString())
+
   const [countries, setCountries] = useState<CountryType[]>([])
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+
   const [graphData, setGraphData] = useState<DailyDataType[]>([])
-  const [selectedCountry, setSelectedCountry] = useState<string>('')
   const [graphSelected, setGraphSelected] = useState<string>('all')
+  const [startDateIndex, setStartDateIndex] = useState<number>(0)
+  const [endDateIndex, setEndDateIndex] = useState<number>(graphData.length - 1)
 
   const covidData = () => {
     api
-      .get(selectedCountry === '' ? 'api' : `api/countries/${selectedCountry}`)
+      .get(selectedCountry === null ? 'api' : `api/countries/${selectedCountry}`)
       .then((response) => {
         const {
           confirmed: { value: confirmedValue },
           recovered: { value: recoveredValue },
           deaths: { value: deathsValue },
+          lastUpdate: lastUpdateValue,
         } = response.data
         setConfirmed(confirmedValue)
         setRecovered(recoveredValue)
         setDeaths(deathsValue)
+        setLastUpdate(lastUpdateValue)
       })
       .catch((error) => console.error(`Error: ${error}`))
   }
@@ -115,7 +122,7 @@ function App() {
             renderInput={(params) => <TextField {...params} label='Search Countries' />}
             onChange={(event, value, reason) => {
               if (reason === 'selectOption' && value) setSelectedCountry(value?.name)
-              else setSelectedCountry('')
+              else setSelectedCountry(null)
             }}
           />
         </div>
@@ -123,7 +130,7 @@ function App() {
           <LineChart
             width={730}
             height={400}
-            data={graphData}
+            data={graphData.slice(startDateIndex, endDateIndex)}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <XAxis dataKey='reportDate' tick={false} />
@@ -158,18 +165,56 @@ function App() {
               />
             )}
           </LineChart>
-          <ToggleButtonGroup
-            value={graphSelected}
-            onChange={(event, value) => setGraphSelected(value)}
-            orientation='vertical'
-            exclusive
-            size='large'
-          >
-            <ToggleButton value='all'> All </ToggleButton>
-            <ToggleButton value='confirmed'> Confirmed</ToggleButton>
-            <ToggleButton value='recovered'> Recovered</ToggleButton>
-            <ToggleButton value='dead'> Dead </ToggleButton>
-          </ToggleButtonGroup>
+          <Stack justifyContent='space-between'>
+            <ToggleButtonGroup
+              value={graphSelected}
+              onChange={(event, value) => setGraphSelected(value)}
+              orientation='vertical'
+              exclusive
+              size='small'
+            >
+              <ToggleButton value='all'> All </ToggleButton>
+              <ToggleButton value='confirmed'> Confirmed</ToggleButton>
+              <ToggleButton value='recovered'> Recovered</ToggleButton>
+              <ToggleButton value='dead'> Dead </ToggleButton>
+            </ToggleButtonGroup>
+            <Stack spacing={1.5}>
+              <Autocomplete
+                options={graphData.slice(0, endDateIndex)}
+                getOptionLabel={(option) => option.reportDate}
+                autoComplete
+                autoHighlight
+                fullWidth
+                renderInput={(params) => <TextField {...params} label='Start Date' />}
+                onChange={(event, value, reason) => {
+                  if (reason === 'selectOption' && value)
+                    setStartDateIndex(
+                      graphData.findIndex((x) => x.reportDate === value?.reportDate),
+                    )
+                  else setStartDateIndex(0)
+                }}
+              />
+              <Autocomplete
+                options={graphData.slice(startDateIndex + 1)}
+                getOptionLabel={(option) => option.reportDate}
+                autoComplete
+                autoHighlight
+                fullWidth
+                renderInput={(params) => <TextField {...params} label='End Date' />}
+                onChange={(event, value, reason) => {
+                  if (reason === 'selectOption' && value)
+                    setEndDateIndex(
+                      graphData.findIndex((x) => x.reportDate === value?.reportDate) + 1,
+                    )
+                  else setEndDateIndex(graphData.length - 1)
+                }}
+              />
+            </Stack>
+            <Stack spacing={0.001}>
+              <h3>Last update:</h3>
+              <p>{lastUpdate}</p>
+            </Stack>
+          </Stack>
         </Stack>
       </body>
     </div>
