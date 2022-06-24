@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly confirmed 1`] = `
+<DocumentFragment>
+  <div
+    class="css-e53awj-MuiStack-root"
+  >
+    <div
+      class="css-nen11g-MuiStack-root"
+    >
+      <h2
+        class="Data-title"
+      >
+         Confimed Cases
+      </h2>
+      <p
+        class="Data-content"
+      >
+         123 
+      </p>
+    </div>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+    />
+    <div
+      class="css-nen11g-MuiStack-root"
+    >
+      <h2
+        class="Data-title"
+      >
+         Recovered Cases
+      </h2>
+      <p
+        class="Data-content"
+      >
+        456
+      </p>
+    </div>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+    />
+    <div
+      class="css-nen11g-MuiStack-root"
+    >
+      <h2
+        class="Data-title"
+      >
+         Deaths
+      </h2>
+      <p
+        class="Data-content"
+      >
+        789
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
