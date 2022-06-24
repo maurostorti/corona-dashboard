@@ -10,12 +10,11 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (request) => {
-    console.log('Starting Request', JSON.stringify(request, null, 2))
     return request
   },
   (error) => {
     // Do something with response error
-    console.error(error.response)
+    console.error('ERROR RECEIVED', error.response)
     return Promise.reject(error)
   },
 )
